@@ -9,6 +9,7 @@
             <polyline points="12,18 4,9 12,0" style="fill:none;stroke:rgb(255,255,255);stroke-width:2"/>
           </svg>
         </section>
+
       </div>
 
       <div class="header-nav-center">
@@ -20,7 +21,10 @@
           <svg class="user_avatar" v-if="userInfo">
             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
           </svg>
-          <span class="login_span" v-else>登录|注册</span>
+          <div class="login_span" v-else>
+            <span>登录</span>
+            <span>注册</span>
+          </div>
         </router-link>
 
         <slot name="edit"></slot>
@@ -74,11 +78,7 @@
   .header-nav-bar {
     display: flex;
     height: 49px;
-    background: #3190e8;
-    font-size: 12px;
-    color: #fff;
     line-height: 49px;
-    padding: 0 8px;
   }
 
   .header-nav-center {
@@ -86,6 +86,16 @@
   }
 
   .login_span {
+
     color: #fff;
+  }
+  .login_span > span:first-child::after {
+    display: inline-block;
+    content: "";
+    width: 1px;
+    height: 20px;
+    margin: -5px 5px;
+    background: #fff;
+    line-height: 20px;
   }
 </style>

@@ -8,7 +8,7 @@ export default {
     state
     }){
     let res = await getUser()
-    console.log(res)
+    // console.log(res)
     commit(GET_USERINFO, res)
   }
 }
