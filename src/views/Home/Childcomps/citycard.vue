@@ -6,9 +6,12 @@
       </div>
     </el-col>
     <el-col :span="6" v-for="city of cities" :key="city.id">
-      <div class="home-nav--cityCard" :class="{'isHotCity':isHotCity}">
-        {{city.name}}
-      </div>
+      <router-link :to="{path: 'city/' + city.id }">
+        <div class="home-nav--cityCard ellipsis" :class="{'isHotCity':isHotCity}">
+          {{city.name}}
+        </div>
+      </router-link>
+
     </el-col>
   </el-row>
 </template>
@@ -56,4 +59,6 @@
   .isHotCity {
     color: #3190e8;
   }
+
+
 </style>

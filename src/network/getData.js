@@ -33,4 +33,17 @@ export const groupCity = () => request({url: '/v1/cities', params: {type: 'group
  * 获取当前所在城市
  */
 
-export const currentCity = number => request({url: '/v1/cities', params: {type: number}});
+export const currentCity = number => request({url: '/v1/cities/' + number});
+
+/**
+ * 获取搜索地址
+ */
+
+export const searchPlace = (cityId, value) => request({
+  url: '/v1/pois',
+  params: {
+    type: 'search',
+    city_id: cityId,
+    keyword: value
+  }
+});

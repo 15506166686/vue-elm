@@ -7,23 +7,30 @@
         </navbar>
       </el-header>
       <el-main>
-        <el-row>
-          <el-col :span="24">
-            <div class="home-nav--locatedCity">
-              <span>当前定位城市：</span>
-              <span>定位不准时，请在城市列表中选择</span>
-            </div>
-          </el-col>
-          <el-col :span="24">
-            <router-link :to="{path: 'city', query: {city: guessCityId  }}">
-              <div class="home-nav--guessCity">
-                <span>{{guessCity}}</span>
-                <svg class="" fill="currentColor" viewBox="0 0 24 24" width="24" height="24"><path d="M9.218 16.78a.737.737 0 0 0 1.052 0l4.512-4.249a.758.758 0 0 0 0-1.063L10.27 7.22a.737.737 0 0 0-1.052 0 .759.759 0 0 0-.001 1.063L13 12l-3.782 3.716a.758.758 0 0 0 0 1.063z" fill-rule="evenodd"></path></svg>
+        <scroll ref="scroll" class="home-nav--content" :probe-type="3">
+          <el-row>
+            <el-col :span="24">
+              <div class="home-nav--locatedCity">
+                <span>当前定位城市：</span>
+                <span>定位不准时，请在城市列表中选择</span>
               </div>
-            </router-link>
-          </el-col>
-        </el-row>
-        <citycard :cities="hotCity" :is-hot-city="true"><span slot="title">热门城市</span></citycard>
+            </el-col>
+            <el-col :span="24">
+              <router-link :to="{path: 'city/'+ guessCityId}">
+                <div class="home-nav--guessCity">
+                  <span>{{guessCity}}</span>
+                  <svg fill="currentColor"  t="1598857171002" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="777" width="24" height="24"><path d="M426.666667 277.12L661.546667 512 426.666667 746.88l-39.082667-39.082667L582.997333 512l-195.413333-195.84z" fill-rule="evenodd" p-id="778"></path></svg>
+                </div>
+              </router-link>
+            </el-col>
+          </el-row>
+          <citycard :cities="hotCity" :is-hot-city="true"><span slot="title">热门城市</span></citycard>
+          <div class="home-list--groupCity" v-for="(cities,key,index) of sortGroupCity" :key="key">
+            <citycard :cities="cities">
+              <span slot="title">{{key}} <span v-if="index === 0">（按字母排序）</span></span>
+            </citycard>
+          </div>
+        </scroll>
       </el-main>
     </el-container>
   </div>
@@ -31,17 +38,18 @@
 
 <script>
   /* 引入相关网络请求 */
-  import {cityGuess, currentCity, hotCity, groupCity} from "@/network/getData";
+  import {cityGuess, hotCity, groupCity} from "@/network/getData";
 
   /* 引入相关组件 */
   import Navbar from "@/components/common/NavBar/navbar";
   import Citycard from "@/views/Home/Childcomps/citycard";
+  import Scroll from "@/components/common/Scroll/scroll";
 
 
 
   export default {
     name: "home",
-    components: {Citycard, Navbar},
+    components: {Scroll, Citycard, Navbar},
     data(){
       return {
         guessCity: '',   //当前城市
@@ -53,6 +61,14 @@
     created(){
 
     },
+    methods: {
+      // 刷新better-scroll
+      updateBSHeight(){
+        // console.log('--')
+        this.$refs.scroll.refresh()
+        // console.log(this.$refs.scroll.scrollerHeight);
+      }
+    },
     mounted(){
       // 获取当前城市
       cityGuess().then(data => {
@@ -63,11 +79,35 @@
       hotCity().then(data => {
         this.hotCity = data
       })
+      // 获取所有城市
+      groupCity().then(data => {
+        this.groupCity = data
+      })
+
+    },
+    computed: {
+      //将获取的数据按照A-Z字母开头排序
+      sortGroupCity(){
+        let sortObj = {};
+        /* ascii码 65是A 90是Z */
+        for (let i = 65; i <= 90; i++) {
+          if (this.groupCity[String.fromCharCode(i)]) {
+            sortObj[String.fromCharCode(i)] = this.groupCity[String.fromCharCode(i)];
+          }
+        }
+        return sortObj
+      }
+    },
+    updated(){
+      this.updateBSHeight()
+    },
+    beforeDestroy(){
+      this.$refs.scroll.destroy()
     }
   }
 </script>
 
-<style scoped>
+<style>
   .el-row {
     margin-bottom: 10px;
   }
@@ -81,6 +121,7 @@
     left: 0;
     top: 0;
     right: 0;
+    z-index: 9;
   }
 
   .el-main {
@@ -88,7 +129,7 @@
     color: #333;
     margin-top: 49px;
     padding: 0px;
-
+    overflow: hidden;
   }
 
   .home-nav--locatedCity {
@@ -98,6 +139,7 @@
     background: #fff;
     padding: 10px 8px;
     color: #666;
+    border-bottom: 1px solid #e4e4e4;
   }
 
   .home-nav--guessCity {
@@ -108,6 +150,14 @@
     color: #3190e8;
     background: #fff;
     font-size: 13px;
+  }
+
+  .home-nav--content {
+    height: calc(100vh - 49px);
+  }
+
+  .home-list--groupCity {
+    background: #fff;
   }
 
 </style>
