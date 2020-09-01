@@ -19,13 +19,16 @@
         <el-row class="city-row city-row--searchResult">
 
           <ul class="city-list--searchResult">
-            <li v-for="(item, index) in placeList" :key="index">
+            <li v-for="(item, index) in placeList" :key="index"  @click='goHome(index, item.geohash)'>
               <h4 class="city-list--position ellipsis">{{item.name}}</h4>
               <p class="city-list--address ellipsis">{{item.address}}</p>
             </li>
           </ul>
           <div class="city-text--noResult" v-if="placeNone">
-              <p class="city-list--address ellipsis">很抱歉！无搜索结果</p>
+            <p class="city-list--address ellipsis">很抱歉！无搜索结果</p>
+          </div>
+          <div class="city-text--clearHistory" v-if="placeList.length && historyTitle" @click="clearHistory">
+            <p>清空所有</p>
           </div>
         </el-row>
       </scroll>
@@ -41,6 +44,8 @@
   import Navbar from "@/components/common/NavBar/navbar";
   import Scroll from "@/components/common/Scroll/scroll";
 
+  import {getStore, setStore, removeStore, _debounce} from "@/utils/mUils";
+
   export default {
     name: "city",
     components: {Scroll, Navbar},
@@ -54,19 +59,33 @@
         placeNone: false, // 搜索无结果，显示提示信息
         inputValue: '',  // 搜索的地址
         disabled: true, // 提交按钮是否禁用
-        isLoading: false  // 提交按钮是否开启加载动画
+        isLoading: false,  // 提交按钮是否开启加载动画
+        updateBSHeight: null // 更新better-scroll高度
       }
     },
     mounted(){
+      // 刷新better-scroll
+      this.updateBSHeight =  _debounce(this.$refs.scroll.refresh)
+
       // 获取路由路径的CityId
       this.cityID = this.$route.params.cityId
       // 获取当前城市名字
       currentCity(this.cityID).then(data => {
-        console.log(data)
         this.cityName = data.name
+
       })
+      // 加载搜索历史记录
+      this.getHistoryPlace()
     },
     methods: {
+      // 获取搜索历史
+      getHistoryPlace(){
+        if(getStore('placeHistory')){
+          this.placeList = JSON.parse(getStore('placeHistory'));
+        }else{
+          this.placeList = [];
+        }
+      },
       // 搜索地址
       searchPosi(){
         this.isLoading = true
@@ -74,15 +93,41 @@
           if(data){
             this.isLoading = false
             this.placeList = data
+            this.historyTitle = false
             this.placeNone = data.length ? false : true
+            this.updateBSHeight()
           }
         })
       },
-      // 刷新better-scroll
-      updateBSHeight(){
-        // console.log('--')
-        this.$refs.scroll.refresh()
-        // console.log(this.$refs.scroll.scrollerHeight);
+      // 返回app页面
+      goHome(index, geoHash){
+        let history = getStore('placeHistory');
+        let choosePlace = this.placeList[index];
+
+        if(history){
+          let checkRepeat = false;
+          this.placeHistory = JSON.parse(history)
+          this.placeHistory.forEach(item => {
+            if (item.geohash == geoHash) {
+              checkRepeat = true
+            }
+          })
+          // 如果地址是第一次选择，就存入历史搜索里面
+          if (!checkRepeat) {
+            this.placeHistory.push(choosePlace)
+          }
+        }else{
+          // 第一次选择地址 直接存入历史搜索里面
+          this.placeHistory.push(choosePlace)
+        }
+        setStore('placeHistory',this.placeHistory)
+        // 跳转到App页面
+        this.$router.push({path:'/msite', query:{geoHash}})
+      },
+      // 清空搜索记录
+      clearHistory(){
+        removeStore('placeHistory')
+        this.getHistoryPlace()
       }
     },
     computed: {
@@ -91,8 +136,8 @@
         return !(this.inputValue.length > 0)
       }
     },
-    updated(){
-      this.updateBSHeight()
+    beforeDestroy(){
+      this.$refs.scroll.destroy()
     }
   }
 </script>
@@ -168,5 +213,12 @@
   }
   .city-text--noResult {
     padding: 15px 15px;
+  }
+  .city-text--clearHistory {
+    padding: 15px 15px;
+    text-align: center;
+    background: #ccc;
+    color: #fff;
+    font-size: 13px;
   }
 </style>

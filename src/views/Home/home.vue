@@ -1,5 +1,8 @@
 <template>
   <div>
+    <transition name="fade">
+      <loading v-if="isLoading"></loading>
+    </transition>
     <el-container>
       <el-header height="49px">
         <navbar :signin-up="true">
@@ -44,44 +47,53 @@
   import Navbar from "@/components/common/NavBar/navbar";
   import Citycard from "@/views/Home/Childcomps/citycard";
   import Scroll from "@/components/common/Scroll/scroll";
+  import Loading from "@/components/common/Loading/loading";
 
-
+  import {_debounce} from "@/utils/mUils";
 
   export default {
     name: "home",
-    components: {Scroll, Citycard, Navbar},
+    components: {Loading, Scroll, Citycard, Navbar},
     data(){
       return {
         guessCity: '',   //当前城市
         guessCityId: '', //当前城市id
         hotCity: [],     //热门城市列表
         groupCity: {},   //所有城市列表
+        isLoading: true, //加载动画
       }
     },
     created(){
 
     },
     methods: {
-      // 刷新better-scroll
-      updateBSHeight(){
-        // console.log('--')
-        this.$refs.scroll.refresh()
-        // console.log(this.$refs.scroll.scrollerHeight);
+
+      // 获取数据
+      getData(){
+        // 获取当前城市
+        let data1 =cityGuess().then(data => {
+          this.guessCity = data.name
+          this.guessCityId = data.id
+        })
+        // 获取热门城市
+        let data2 = hotCity().then(data => {
+          this.hotCity = data
+        })
+        // 获取所有城市
+        let data3 = groupCity().then(data => {
+          this.groupCity = data
+        })
+        return Promise.all([data1,data2,data3])
       }
     },
     mounted(){
-      // 获取当前城市
-      cityGuess().then(data => {
-        this.guessCity = data.name
-        this.guessCityId = data.id
-      })
-      // 获取热门城市
-      hotCity().then(data => {
-        this.hotCity = data
-      })
-      // 获取所有城市
-      groupCity().then(data => {
-        this.groupCity = data
+      // 刷新better-scroll
+      const updateBSHeight =  _debounce(this.$refs.scroll.refresh)
+
+      // 关闭加载动画
+      this.getData().then(()=>{
+        this.isLoading = false
+        updateBSHeight()
       })
 
     },
@@ -97,9 +109,6 @@
         }
         return sortObj
       }
-    },
-    updated(){
-      this.updateBSHeight()
     },
     beforeDestroy(){
       this.$refs.scroll.destroy()
