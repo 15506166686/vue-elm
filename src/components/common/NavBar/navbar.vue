@@ -11,6 +11,7 @@
       <div class="header-nav--center">
         <slot name="search"></slot>
         <span v-if="headTitle" class="header-nav--title">{{headTitle}}</span>
+
       </div>
 
       <div class="header-nav--right">
@@ -90,6 +91,7 @@
 
   .header-nav--center {
     flex: 1 1;
+    text-align: center;
   }
 
   .login_span {

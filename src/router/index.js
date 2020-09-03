@@ -6,6 +6,8 @@ Vue.use(VueRouter)
 /* 引入view视图 懒加载模式 */
 const Home = () => import('@/views/Home/home')
 const City = () => import('@/views/City/city')
+const Login = () => import('@/views/Login/login')
+
 
 const router = new VueRouter({
   mode: 'history',
@@ -23,6 +25,10 @@ const router = new VueRouter({
       path: '/city/:cityId',
       name: 'city',
       component: City
+    },{
+      path: '/login',
+      name: 'login',
+      component: Login
     }
   ]
 })

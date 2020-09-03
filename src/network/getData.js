@@ -47,3 +47,24 @@ export const searchPlace = (cityId, value) => request({
     keyword: value
   }
 });
+
+/**
+ * 获取图片验证码
+ */
+
+export const getcaptchas = () => request({
+  url: '/v1/captchas',
+  method: 'post'
+})
+
+/**
+ * 检测帐号是否存在
+ */
+
+export const checkExist = (checkNumber, type) => request({
+  url: '/v1/users/exists',
+  data: {
+    [type]: checkNumber,
+    type
+  }
+});
