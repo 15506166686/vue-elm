@@ -3,7 +3,12 @@ import axios from 'axios'
 export function request(config) {
   const instance = new axios.create({
     baseURL: 'https://elm.cangdu.org/',
-    timeout:5000
+    timeout: 5000,
+    withCredentials: true,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
   });
 
   // 请求拦截器

@@ -54,7 +54,8 @@ export const searchPlace = (cityId, value) => request({
 
 export const getcaptchas = () => request({
   url: '/v1/captchas',
-  method: 'post'
+  data: {},
+  method: 'POST'
 })
 
 /**
@@ -67,4 +68,14 @@ export const checkExist = (checkNumber, type) => request({
     [type]: checkNumber,
     type
   }
+});
+
+/**
+ * 账号密码登录
+ */
+
+export const accountLogin = (username, password, captcha_code) => request({
+  url: '/v2/login',
+  data: {username, password, captcha_code},
+  method: 'post'
 });

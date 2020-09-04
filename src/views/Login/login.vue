@@ -22,14 +22,14 @@
         <el-col :span="12">
           <el-input
               placeholder="验证码"
-              v-model="mobileCode"
+              v-model="codeNumber"
               clearable>
           </el-input>
         </el-col>
         <el-col :span="12">
           <div class="login-btn--changeCode">
             <img  v-if="captchaCodeImg" class="login-img--changeCode" :src="captchaCodeImg" alt="captchaCodeImg">
-            <div class="login-text--changeCode">
+            <div class="login-text--changeCode" @click="getCaptcha">
               <span>看不清</span>
               <span>换一张</span>
             </div>
@@ -61,12 +61,14 @@
 
 <script>
   /* 引入相关网络请求 */
-  import {getcaptchas} from "@/network/getData";
+  import {getcaptchas, accountLogin} from "@/network/getData";
 
   /* 引入相关组件 */
   import Navbar from "@/components/common/NavBar/navbar";
   import Toast from "@/components/common/Toast/toast";
+  import {mapState, mapMutations} from "vuex"
 
+  import axios from "axios"
 
   export default {
     name: "login",
@@ -76,13 +78,18 @@
         headTitle: '密码登录', // 导航栏标题
         userAccount: '', // 用户账号
         passWord: '', // 用户密码
-        mobileCode: '', // 验证码
+        codeNumber: '', // 验证码
         captchaCodeImg: null, // 验证码地址
-        alertMsg: 'fsss电机哈时间对卅计划发发射点发d', // 提示信息
+        alertMsg: '', // 提示信息
         toastShow: false, // 控制toast显示
+        userInfo: null, // 存放用户信息
       }
     },
     methods: {
+      ...mapMutations([
+        'RECORD_USERINFO',
+      ]),
+      // 用户账号登录
       mobileLogin(){
         if (!this.userAccount) {
           this.alertMsg = '请输入手机号/邮箱/用户名';
@@ -92,12 +99,34 @@
           this.alertMsg = '请输入密码';
           this.toastShow = !this.toastShow
           return
-        }else if(!this.mobileCode){
+        }else if(!this.codeNumber){
           this.alertMsg = '请输入验证码';
           this.toastShow = !this.toastShow
           return
         }
+
+        accountLogin(this.userAccount, this.passWord, this.codeNumber).then(data => {
+          this.userInfo = data
+          //如果返回的值不正确，则弹出提示框，返回的值正确则返回上一页
+          if (!this.userInfo.user_id) {
+            this.alertMsg = this.userInfo.message;
+            this.toastShow = !this.toastShow
+            this.getCaptcha();
+          }else{
+            //this.RECORD_USERINFO(this.userInfo);
+            //this.$router.go(-1);
+            this.alertMsg = "成功";
+            this.toastShow = !this.toastShow
+          }
+        })
       },
+      // 获取二维码
+      getCaptcha(){
+        getcaptchas().then(data => {
+          this.captchaCodeImg = data.code
+        })
+      }
+      ,
       msgTips() {
         this.$message({
           showClose: true,
@@ -108,10 +137,7 @@
     },
     created(){
       // 获取验证码
-      getcaptchas().then(data => {
-       this.captchaCodeImg = data.code
-      })
-
+      this.getCaptcha()
     }
   }
 </script>

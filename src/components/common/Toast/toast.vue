@@ -40,17 +40,17 @@
     transform: translate(-50%,-50%);
     z-index: 3000;
     max-width: 95%;
-    min-width: 320px;
+    min-width: 210px;
     min-height: 140px;
     padding: 20px;
     background: #fff;
     border-radius: 5px;
-    animation: toastShow .4s;
+    animation: toastShow .1s;
   }
   .msg-text {
     padding: 5px;
     font-size: 15px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
   }
   .msg-btn {
     position: absolute;
@@ -67,7 +67,6 @@
   }
   @keyframes toastShow{
     0%   { opacity: 0 }
-
     100% { opacity: 1 }
   }
 </style>

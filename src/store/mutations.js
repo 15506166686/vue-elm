@@ -30,7 +30,7 @@ import {
   BUY_CART,
 } from './mutation-types.js'
 
-import {setStore,getStore} from '@/utils/mUils'
+import {setStore, getStore} from '@/utils/mUils'
 
 export default {
 
@@ -47,5 +47,11 @@ export default {
     }else{
       state.userInfo = null
     }
+  },
+  // 记录用户信息
+  [RECORD_USERINFO](state, info){
+    state.userInfo = info
+    state.login = true
+    setStore('user_id', info.user_id)
   }
 }
