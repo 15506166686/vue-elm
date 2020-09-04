@@ -55,6 +55,7 @@
         </el-col>
       </el-row>
     </el-main>
+    <toast v-show="toastShow" :message="alertMsg" @closeToast="toastShow = !toastShow"></toast>
   </el-container>
 </template>
 
@@ -64,11 +65,12 @@
 
   /* 引入相关组件 */
   import Navbar from "@/components/common/NavBar/navbar";
+  import Toast from "@/components/common/Toast/toast";
 
 
   export default {
     name: "login",
-    components: {Navbar},
+    components: {Toast, Navbar},
     data(){
       return {
         headTitle: '密码登录', // 导航栏标题
@@ -76,22 +78,23 @@
         passWord: '', // 用户密码
         mobileCode: '', // 验证码
         captchaCodeImg: null, // 验证码地址
-        alertMsg: '', // 提示信息
+        alertMsg: 'fsss电机哈时间对卅计划发发射点发d', // 提示信息
+        toastShow: false, // 控制toast显示
       }
     },
     methods: {
       mobileLogin(){
         if (!this.userAccount) {
           this.alertMsg = '请输入手机号/邮箱/用户名';
-
+          this.toastShow = !this.toastShow
           return
         }else if(!this.passWord){
           this.alertMsg = '请输入密码';
-
+          this.toastShow = !this.toastShow
           return
         }else if(!this.mobileCode){
           this.alertMsg = '请输入验证码';
-
+          this.toastShow = !this.toastShow
           return
         }
       },

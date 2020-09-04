@@ -87,13 +87,11 @@
       }
     },
     mounted(){
-      // 刷新better-scroll
-      const updateBSHeight =  _debounce(this.$refs.scroll.refresh)
 
       // 关闭加载动画
       this.getData().then(()=>{
         this.isLoading = false
-        updateBSHeight()
+        this.$refs.scroll.refresh
       })
 
     },
@@ -112,6 +110,11 @@
     },
     beforeDestroy(){
       this.$refs.scroll.destroy()
+    },
+    updated(){
+      // 刷新better-scroll
+      const updateBSHeight =  _debounce(this.$refs.scroll.refresh)
+      updateBSHeight()
     }
   }
 </script>
