@@ -106,6 +106,7 @@
         }
 
         accountLogin(this.userAccount, this.passWord, this.codeNumber).then(data => {
+          console.log(data)
           this.userInfo = data
           //如果返回的值不正确，则弹出提示框，返回的值正确则返回上一页
           if (!this.userInfo.user_id) {
@@ -142,7 +143,7 @@
   }
 </script>
 
-<style>
+<style scoped>
   .el-header {
     background-color: #3190e8;
     color: #fff;

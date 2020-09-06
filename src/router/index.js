@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 const Home = () => import('@/views/Home/home')
 const City = () => import('@/views/City/city')
 const Login = () => import('@/views/Login/login')
-
+const Profile = () => import('@/views/Profile/profile')
 
 const router = new VueRouter({
   mode: 'history',
@@ -25,10 +25,16 @@ const router = new VueRouter({
       path: '/city/:cityId',
       name: 'city',
       component: City
-    },{
+    },
+    {
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile
     }
   ]
 })
