@@ -7,6 +7,7 @@
       <el-row class="login-input--loginForm">
         <el-col :span="24">
           <el-input
+              class="login-input--format"
               placeholder="账号"
               v-model="userAccount"
               clearable>
@@ -68,7 +69,6 @@
   import Toast from "@/components/common/Toast/toast";
   import {mapState, mapMutations} from "vuex"
 
-  import axios from "axios"
 
   export default {
     name: "login",
@@ -114,10 +114,10 @@
             this.toastShow = !this.toastShow
             this.getCaptcha();
           }else{
-            //this.RECORD_USERINFO(this.userInfo);
-            //this.$router.go(-1);
-            this.alertMsg = "成功";
-            this.toastShow = !this.toastShow
+            this.RECORD_USERINFO(this.userInfo);
+            this.$router.go(-1);
+            // this.alertMsg = "成功";
+            // this.toastShow = !this.toastShow
           }
         })
       },
@@ -175,7 +175,7 @@
     margin-bottom: 0;
   }
 
-  .login-input--loginForm input {
+   .login-input--loginForm >>> input {
     border-radius: 0;
     border: none;
     border-bottom: 1px solid #e4e4e4;
@@ -185,14 +185,17 @@
     padding: 0;
     margin: 0;
   }
-  .login-input-mobileCode {
-    padding: 0;
-    margin: 0;
-  }
-  .login-input-mobileCode input {
+
+  .login-input-mobileCode >>> input {
     border-radius: 0;
     border: none;
     border-bottom: 1px solid #e4e4e4;
+  }
+  .login-input--loginForm >>> input:focus {
+    border-bottom: 1px solid #3190e8;
+  }
+  .login-input-mobileCode >>> input:focus {
+    border-bottom: 1px solid #3190e8;
   }
   .login-btn--changeCode {
     display: flex;
@@ -224,6 +227,7 @@
     float: right;
     color: #3190e8;
   }
+
   /*.login-img--changeCode {*/
   /*  height: 20px;*/
   /*}*/

@@ -36,6 +36,7 @@
         </scroll>
       </el-main>
     </el-container>
+
   </div>
 </template>
 
@@ -83,6 +84,7 @@
         let data3 = groupCity().then(data => {
           this.groupCity = data
         })
+
         return Promise.all([data1,data2,data3])
       }
     },
