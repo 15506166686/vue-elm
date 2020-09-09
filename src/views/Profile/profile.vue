@@ -115,9 +115,8 @@
         </el-col>
       </el-row>
     </el-main>
-
     <el-footer height="49px">
-      <footnav></footnav>
+      <footnav ></footnav>
     </el-footer>
   </el-container>
 </template>
@@ -130,7 +129,13 @@
     components: {Footnav, Navbar},
     data(){
       return {
-        headTitle: '我的'
+        headTitle: '我的',  activeIndex: '1',
+        activeIndex2: '1'
+      }
+    },
+    methods: {
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
       }
     }
   }
