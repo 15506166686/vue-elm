@@ -3,14 +3,14 @@
     <div class="header-nav--bar">
       <div class="header-nav--left">
         <slot name='logo'></slot>
+        <slot name="search"></slot>
         <span class="head-goBack" v-if="goBack" @click="$router.go(-1)">
           <svg t="1598857259055" fill="currentColor" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="913" width="24" height="24"><path d="M597.333333 277.12l39.04 39.04-195.413333 195.84 195.413333 195.797333-39.04 39.082667L362.453333 512z" fill-rule="evenodd" p-id="914"></path></svg>
         </span>
       </div>
 
       <div class="header-nav--center">
-        <slot name="search"></slot>
-        <span v-if="headTitle" class="header-nav--title">{{headTitle}}</span>
+        <span v-if="headTitle" class="header-nav--title ellipsis">{{headTitle}}</span>
       </div>
 
       <div class="header-nav--right">

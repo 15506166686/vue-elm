@@ -79,3 +79,11 @@ export const accountLogin = (username, password, captcha_code) => request({
   data: {username, password, captcha_code},
   method: 'post'
 });
+
+/**
+ * 获取msite页面地址信息
+ */
+
+export const msiteAddress = geoHash => request({
+  url: '/v2/pois/' + geoHash
+});
