@@ -8,6 +8,9 @@ const Home = () => import('@/views/Home/home')
 const City = () => import('@/views/City/city')
 const Login = () => import('@/views/Login/login')
 const Profile = () => import('@/views/Profile/profile')
+const Search = () => import('@/views/Search/search')
+const Order = () => import('@/views/Order/order')
+const Msite = () => import('@/views/Msite/msite')
 
 const router = new VueRouter({
   mode: 'history',
@@ -35,6 +38,21 @@ const router = new VueRouter({
       path: '/profile',
       name: 'profile',
       component: Profile
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: Search
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: Order
+    },
+    {
+      path: '/msite',
+      name: 'msite',
+      component: Msite
     }
   ]
 })

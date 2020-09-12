@@ -116,17 +116,17 @@
       </el-row>
     </el-main>
     <el-footer height="49px">
-      <footnav ></footnav>
+      <main-foot-nav></main-foot-nav>
     </el-footer>
   </el-container>
 </template>
 
 <script>
   import Navbar from "@/components/common/NavBar/navbar";
-  import Footnav from "@/components/content/FootNav/footnav";
+  import MainFootNav from "@/components/content/FootNav/mainFootNav";
   export default {
     name: "profile",
-    components: {Footnav, Navbar},
+    components: {MainFootNav, Navbar},
     data(){
       return {
         headTitle: '我的',  activeIndex: '1',
