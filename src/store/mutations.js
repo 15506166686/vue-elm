@@ -65,5 +65,9 @@ export default {
   // 保存geohash
   [SAVE_GEOHASH](state, geohash){
     state.geohash = geohash
+  },
+  //保存图片
+  [SAVE_AVANDER](state, imgPath) {
+    state.imgPath = imgPath;
   }
 }

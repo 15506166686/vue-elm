@@ -14,6 +14,11 @@
 
 <style scoped>
   .footnav-container {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 3000;
     background: #fff;
     box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.1);
   }

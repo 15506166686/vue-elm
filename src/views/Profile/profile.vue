@@ -7,14 +7,14 @@
       <el-row>
         <el-col :span="24">
           <div class="my-header--container">
-            <router-link :to="'/profile'">
+            <router-link :to="'/profile/userinfo'">
               <div class="my-header--userInfo">
                 <img  class="my-header--userAvatar" src="https://avatars0.githubusercontent.com/u/25549238?s=88&u=1bbd88d645785b87a6cf4eb2ef88739774f21b60&v=4" alt="">
                 <div class="my-header--text">
-                  <span class="my-header--login">登录/注册</span>
+                  <span class="my-header--login">{{username}}</span>
                   <span class="my-header--notice">
                     <svg fill="currentColor" t="1599373211523" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5888" width="12" height="12"><path d="M736 0 288 0c-52.8 0-96 43.2-96 96l0 832c0 52.8 43.2 96 96 96l448 0c52.8 0 96-43.2 96-96L832 96C832 43.2 788.8 0 736 0zM384 48l256 0 0 32L384 80 384 48zM512 960c-35.346 0-64-28.654-64-64s28.654-64 64-64 64 28.654 64 64S547.346 960 512 960zM768 768 256 768 256 128l512 0L768 768z" p-id="5889" fill-rule="evenodd"></path></svg>
-                     暂无绑定手机号
+                     {{mobile}}
                   </span>
                 </div>
                 <div class="my-header--indicator">
@@ -118,6 +118,9 @@
     <el-footer height="49px">
       <main-foot-nav></main-foot-nav>
     </el-footer>
+    <transition name="router-slid" mode="out-in">
+      <router-view></router-view>
+    </transition>
   </el-container>
 </template>
 
@@ -129,8 +132,9 @@
     components: {MainFootNav, Navbar},
     data(){
       return {
-        headTitle: '我的',  activeIndex: '1',
-        activeIndex2: '1'
+        headTitle: '我的',
+        username: '登录/注册',
+        mobile: '暂无绑定手机号'  //电话号码
       }
     },
     methods: {
@@ -263,6 +267,14 @@
   .my-list--text {
     flex: 1 1;
     text-indent: 10px;
+  }
+
+  .router-slid-enter-active, .router-slid-leave-active {
+    transition: all .4s;
+  }
+  .router-slid-enter, .router-slid-leave-active {
+    transform: translate3d(2rem, 0, 0);
+    opacity: 0;
   }
 
   /*.my-info--infoCard:not(:last-child):after{*/

@@ -9,8 +9,8 @@
         </span>
       </div>
 
-      <div class="header-nav--center">
-        <span v-if="headTitle" class="header-nav--title ellipsis">{{headTitle}}</span>
+      <div class="header-nav--center ellipsis">
+        <span v-if="headTitle" class="header-nav--title">{{headTitle}}</span>
       </div>
 
       <div class="header-nav--right">

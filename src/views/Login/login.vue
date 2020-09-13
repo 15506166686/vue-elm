@@ -68,7 +68,7 @@
   import Navbar from "@/components/common/NavBar/navbar";
   import Toast from "@/components/common/Toast/toast";
   import {mapState, mapMutations} from "vuex"
-
+  import {imgBaseUrl} from "@/config/env";
 
   export default {
     name: "login",
@@ -83,11 +83,13 @@
         alertMsg: '', // 提示信息
         toastShow: false, // 控制toast显示
         userInfo: null, // 存放用户信息
+        imgBaseUrl // 默认图片导向
       }
     },
     methods: {
       ...mapMutations([
         'RECORD_USERINFO',
+        'SAVE_AVANDER'
       ]),
       // 用户账号登录
       mobileLogin(){
@@ -106,7 +108,7 @@
         }
 
         accountLogin(this.userAccount, this.passWord, this.codeNumber).then(data => {
-          console.log(data)
+
           this.userInfo = data
           //如果返回的值不正确，则弹出提示框，返回的值正确则返回上一页
           if (!this.userInfo.user_id) {
@@ -115,7 +117,9 @@
             this.getCaptcha();
           }else{
             this.RECORD_USERINFO(this.userInfo);
-            this.$router.go(-1);
+            console.log(imgBaseUrl + this.userInfo.avatar)
+            this.SAVE_AVANDER(imgBaseUrl + this.userInfo.avatar)
+            //this.$router.go(-1);
             // this.alertMsg = "成功";
             // this.toastShow = !this.toastShow
           }
@@ -126,8 +130,7 @@
         getcaptchas().then(data => {
           this.captchaCodeImg = data.code
         })
-      }
-      ,
+      },
       msgTips() {
         this.$message({
           showClose: true,
