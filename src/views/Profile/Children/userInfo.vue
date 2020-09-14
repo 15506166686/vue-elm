@@ -97,7 +97,7 @@
           </div>
           <div class="msg-btn">
             <el-button type="info" @click="cancelLogout">再等等</el-button>
-            <el-button type="danger" @click="userLogout">退出登录</el-button>
+            <el-button type="danger" @click="outLogin">退出登录</el-button>
           </div>
         </div>
       </div>
@@ -111,9 +111,11 @@
   import Navbar from "@/components/common/NavBar/navbar";
   import Toast from "@/components/common/Toast/toast";
   import {getImgPath} from "@/utils/mixin";
+  import {removeStore} from "@/utils/mUils";
 
   import {imgBaseUrl} from "@/config/env";
-  import {mapState} from 'vuex'
+  import {mapState, mapMutations} from 'vuex'
+  import {signout} from "@/network/getData";
 
   export default {
     name: "userInfo",
@@ -131,9 +133,20 @@
       getImgPath
     ],
     methods: {
+      ...mapMutations([
+        'SAVE_AVANDER',
+        'OUT_LOGIN'
+      ]),
       // 退出登录
       userLogout(){
+        //this.OUT_LOGIN()
         this.toastShow = true
+      },
+      outLogin(){
+        removeStore('user_id')
+        this.OUT_LOGIN()
+        signout()
+        this.$router.go(-1);
       },
       // 取消退出登录
       cancelLogout(){
@@ -153,6 +166,7 @@
           this.username = value.username;
           this.mobile = value.mobile;
           this.avatar = value.avatar
+
         }
       }
     }
@@ -198,7 +212,7 @@
     background: #fff;
     border-bottom: 1px solid #e4e4e4;
   }
-  .el-row:first-child {
+  .el-row:nth-child(1) {
     margin-top: 10px;
   }
 

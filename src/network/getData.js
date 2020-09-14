@@ -87,3 +87,10 @@ export const accountLogin = (username, password, captcha_code) => request({
 export const msiteAddress = geoHash => request({
   url: '/v2/pois/' + geoHash
 });
+
+/**
+ * 退出登录
+ */
+export const signout = () => request({
+  url: '/v2/signout'
+});

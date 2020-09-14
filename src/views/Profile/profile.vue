@@ -9,7 +9,7 @@
           <div class="my-header--container">
             <router-link :to="'/profile/userinfo'">
               <div class="my-header--userInfo">
-                <img  class="my-header--userAvatar" src="https://avatars0.githubusercontent.com/u/25549238?s=88&u=1bbd88d645785b87a6cf4eb2ef88739774f21b60&v=4" alt="">
+                <img  class="my-header--userAvatar" :src="imgPath" alt="userimg">
                 <div class="my-header--text">
                   <span class="my-header--login">{{username}}</span>
                   <span class="my-header--notice">
@@ -121,12 +121,17 @@
     <transition name="router-slid" mode="out-in">
       <router-view></router-view>
     </transition>
+    {{imgPath}}
   </el-container>
 </template>
 
 <script>
   import Navbar from "@/components/common/NavBar/navbar";
   import MainFootNav from "@/components/content/FootNav/mainFootNav";
+
+  import {mapState} from 'vuex'
+  import {imgBaseUrl} from "@/config/env";
+
   export default {
     name: "profile",
     components: {MainFootNav, Navbar},
@@ -134,8 +139,15 @@
       return {
         headTitle: '我的',
         username: '登录/注册',
-        mobile: '暂无绑定手机号'  //电话号码
+        mobile: '暂无绑定手机号',  //电话号码
+        imgBaseUrl
       }
+    },
+    computed:{
+      ...mapState([
+        'userInfo',
+        'imgPath'
+      ])
     },
     methods: {
       handleSelect(key, keyPath) {

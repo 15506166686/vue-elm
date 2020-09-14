@@ -66,8 +66,15 @@ export default {
   [SAVE_GEOHASH](state, geohash){
     state.geohash = geohash
   },
-  //保存图片
+  // 保存图片
   [SAVE_AVANDER](state, imgPath) {
+    console.log(imgPath)
     state.imgPath = imgPath;
+  },
+  // 退出登录
+  [OUT_LOGIN](state){
+    state.login = false
+    state.userInfo = {}
+    state.imgPath = null
   }
 }

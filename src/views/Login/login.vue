@@ -69,6 +69,7 @@
   import Toast from "@/components/common/Toast/toast";
   import {mapState, mapMutations} from "vuex"
   import {imgBaseUrl} from "@/config/env";
+  import userInfo from "@/views/Profile/Children/userInfo";
 
   export default {
     name: "login",
@@ -85,6 +86,11 @@
         userInfo: null, // 存放用户信息
         imgBaseUrl // 默认图片导向
       }
+    },
+    computed: {
+      ...mapState([
+        'imgPath'
+      ])
     },
     methods: {
       ...mapMutations([
@@ -117,11 +123,8 @@
             this.getCaptcha();
           }else{
             this.RECORD_USERINFO(this.userInfo);
-            console.log(imgBaseUrl + this.userInfo.avatar)
-            this.SAVE_AVANDER(imgBaseUrl + this.userInfo.avatar)
-            //this.$router.go(-1);
-            // this.alertMsg = "成功";
-            // this.toastShow = !this.toastShow
+           // this.SAVE_AVANDER(JSON.parse(JSON.stringify(imgBaseUrl + userInfo.avatar)))
+            this.$router.go(-1);
           }
         })
       },
