@@ -7,9 +7,10 @@
       <el-row>
         <el-col :span="24">
           <div class="my-header--container">
-            <router-link :to="'/profile/userinfo'">
+            <router-link :to="userInfo && userInfo.user_id ? '/profile/userinfo' : '/login'">
               <div class="my-header--userInfo">
-                <img  class="my-header--userAvatar" :src="imgPath" alt="userimg">
+                <img v-if="userInfo && userInfo.user_id" class="my-header--userAvatar" :src="imgPath" alt="userimg">
+                <img v-else src="~@/assets/images/default.png" class="my-header--userAvatar" alt="userimg">
                 <div class="my-header--text">
                   <span class="my-header--login">{{username}}</span>
                   <span class="my-header--notice">
@@ -128,6 +129,7 @@
 <script>
   import Navbar from "@/components/common/NavBar/navbar";
   import MainFootNav from "@/components/content/FootNav/mainFootNav";
+  import {getStore} from "@/utils/mUils";
 
   import {mapState} from 'vuex'
   import {imgBaseUrl} from "@/config/env";
@@ -140,18 +142,34 @@
         headTitle: '我的',
         username: '登录/注册',
         mobile: '暂无绑定手机号',  //电话号码
-        imgBaseUrl
+        imgBaseUrl,
+        imgPath: null
       }
+    },
+    mounted(){
+      this.initData()
     },
     computed:{
       ...mapState([
-        'userInfo',
-        'imgPath'
+        'userInfo'
       ])
     },
     methods: {
       handleSelect(key, keyPath) {
         console.log(key, keyPath);
+      },
+      initData(){
+        if(this.userInfo && this.userInfo.user_id){
+          this.imgPath = imgBaseUrl + this.userInfo.avatar
+          this.username = this.userInfo.username
+        }else {
+          this.username = '登录/注册'
+        }
+      }
+    },
+    watch: {
+      userInfo() {
+        this.initData()
       }
     }
   }

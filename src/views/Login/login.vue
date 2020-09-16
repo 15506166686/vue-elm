@@ -123,7 +123,6 @@
             this.getCaptcha();
           }else{
             this.RECORD_USERINFO(this.userInfo);
-           // this.SAVE_AVANDER(JSON.parse(JSON.stringify(imgBaseUrl + userInfo.avatar)))
             this.$router.go(-1);
           }
         })

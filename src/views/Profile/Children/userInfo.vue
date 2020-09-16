@@ -10,8 +10,8 @@
             头像
           </div>
           <div class="info-detail">
-            <img v-if="userInfo" class="info-avator" :src="imgBaseUrl + avatar" alt="username">
-
+            <img v-if="userInfo && userInfo.user_id" class="info-avator" :src="imgBaseUrl + avatar" alt="username">
+            <img v-else src="~@/assets/images/default.png" class="my-header--userAvatar" alt="userimg">
             <div class="info-indicator">
               <svg fill="currentColor" t="1598857171002" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="777" width="24" height="24" class="icon"><path d="M426.666667 277.12L661.546667 512 426.666667 746.88l-39.082667-39.082667L582.997333 512l-195.413333-195.84z" fill-rule="evenodd" p-id="778"></path></svg>
             </div>
@@ -126,7 +126,8 @@
         avatar: null, // 用户头像
         toastShow: false, // 控制toast显示
         mobile: '', // 用户手机号
-        imgBaseUrl
+        imgBaseUrl,
+        isLogin: null
       }
     },
     mixins: [
@@ -151,12 +152,20 @@
       // 取消退出登录
       cancelLogout(){
         this.toastShow = false
+      },
+      // 判断登录加载用户信息
+      initData(){
+        if(this.userInfo && this.userInfo.user_id){
+          this.isLogin = true
+        }else {
+          this.isLogin = false
+        }
       }
     },
     computed: {
       ...mapState([
         'userInfo',
-        'imgPath'
+        'login'
       ])
     },
     watch: {
@@ -166,8 +175,8 @@
           this.username = value.username;
           this.mobile = value.mobile;
           this.avatar = value.avatar
-
         }
+        this.initData()
       }
     }
   }
