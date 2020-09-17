@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header height="49px">
-      <navbar :signinUp="true" :head-title="msiteTitle">
+      <navbar :signinUp="true" :located-city="msiteTitle">
         <div slot="search">
           <router-link class="msite-link--text" :to="{path: '/search'}">
             <svg fill="currentColor" t="1599894131209" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2719" ><path d="M400.696889 801.393778A400.668444 400.668444 0 1 1 400.696889 0a400.668444 400.668444 0 0 1 0 801.393778z m0-89.031111a311.637333 311.637333 0 1 0 0-623.331556 311.637333 311.637333 0 0 0 0 623.331556z" p-id="2720"></path><path d="M667.904 601.998222l314.766222 314.823111-62.919111 62.976-314.823111-314.823111z" p-id="2721" fill-rule="evenodd"></path></svg>
@@ -9,7 +9,9 @@
         </div>
       </navbar>
     </el-header>
-    <el-main>Main</el-main>
+    <el-main>
+      <msite-swiper></msite-swiper>
+    </el-main>
     <el-footer height="49px">
       <main-foot-nav></main-foot-nav>
     </el-footer>
@@ -25,10 +27,11 @@
   import Navbar from "@/components/common/NavBar/navbar";
 
   import {mapMutations} from 'vuex'
+  import MsiteSwiper from "@/views/Msite/ChildComps/msiteSwiper";
 
   export default {
     name: "msite",
-    components: {Navbar, MainFootNav},
+    components: {MsiteSwiper, Navbar, MainFootNav},
     data(){
       return {
         geoHash: '', // city页面传递过来的地址geohash

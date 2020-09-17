@@ -11,6 +11,7 @@
 
       <div class="header-nav--center ellipsis">
         <span v-if="headTitle" class="header-nav--title">{{headTitle}}</span>
+        <span v-if="locatedCity" class="header-nav--title" @click="cityRoute">{{locatedCity}}</span>
       </div>
 
       <div class="header-nav--right">
@@ -54,6 +55,12 @@
         default(){
           return ''
         }
+      },
+      locatedCity: {
+        type: String,
+        default(){
+          return ''
+        }
       }
     },
     mounted(){
@@ -64,7 +71,10 @@
       ...mapState(['userInfo'])
     },
     methods: {
-      ...mapActions(['getUserInfo'])
+      ...mapActions(['getUserInfo']),
+      cityRoute(){
+        this.$router.push("/home")
+      }
     }
   }
 </script>
