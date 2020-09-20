@@ -10,7 +10,7 @@
       </navbar>
     </el-header>
     <el-main>
-      <msite-swiper></msite-swiper>
+      <msite-swiper :goods-type="goodsType"></msite-swiper>
     </el-main>
     <el-footer height="49px">
       <main-foot-nav></main-foot-nav>
@@ -21,7 +21,7 @@
 <script>
 
   /* 引入相关网络请求 */
-  import {cityGuess, msiteAddress} from "@/network/getData";
+  import {cityGuess, msiteAddress, msiteFoodTypes} from "@/network/getData";
   /* 引入相关组件 */
   import MainFootNav from "@/components/content/FootNav/mainFootNav";
   import Navbar from "@/components/common/NavBar/navbar";
@@ -36,7 +36,8 @@
       return {
         geoHash: '', // city页面传递过来的地址geohash
         msiteTitle: '请选择地址...', // msite页面头部标题
-        hasGetData: false // 是否已经获取地理位置数据，成功之后再获取商铺列表信息
+        hasGetData: false, //, 是否已经获取地理位置数据，成功之后再获取商铺列表信息
+        goodsType: [] // 导航食品类型
       }
     },
     async created(){
@@ -53,6 +54,20 @@
       // 获取位置信息
       msiteAddress(this.geoHash).then(data => {
         this.msiteTitle = data.name
+      })
+    },
+    mounted(){
+      // 获取导航食品类型列表
+      msiteFoodTypes(this.geoHash).then(data => {
+        let tempStack = []
+        console.log(data)
+        for (let i = 0; i < data.length; i++ ){
+          tempStack.push(data[i])
+          if((i+1) % 8 === 0) {
+            this.goodsType.push(tempStack)
+            tempStack = []
+          }
+        }
       })
     },
     // 保存geohash 到vuex

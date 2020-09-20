@@ -1,32 +1,104 @@
 <template>
-  <div class="m-swiper--container">
-    <el-carousel indicator-position="outside">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <h3>{{ item }}</h3>
-      </el-carousel-item>
-    </el-carousel>
+  <div class="goodsSwiper">
+    <swiper :options="swiperOption" ref="mySwiper">
+      <swiper-slide v-for="(item, index) in goodsType" :key="index">
+        <el-row class="food-row">
+          <div class="food-col"  v-for="food in item" :key="food.title">
+            <img :src="imgBaseUrl + food.image_url" alt="">
+            <span>{{food.title}}</span>
+          </div>
+        </el-row>
+      </swiper-slide>
+      <div class="swiper-pagination" slot="pagination"></div>
+
+    </swiper>
   </div>
 </template>
 
 <script>
-  /* 导入vue-anwesome-swiper element carousel不支持移动端触屏 */
-  // import { Swiper, SwiperSlide, directive } from 'vue-awesome-swiper'
-  // import 'swiper/css/swiper.css'
+  // 引入插件
+  import { swiper, swiperSlide } from "vue-awesome-swiper";
+  import "swiper/dist/css/swiper.css";
 
   export default {
-    name: "msiteSwiper",
     components: {
-
+      swiper,
+      swiperSlide
     },
-    data(){
-      return {
-
+    props: {
+      goodsType: {
+        type: Array,
+        default(){
+          return []
         }
       }
-
-  }
+    },
+    data() {
+      return {
+        swiperOption: {
+          loop: true,
+          autoplay: {
+            delay: 3000,
+            stopOnLastSlide: false,
+            disableOnInteraction: false
+          },
+          // 显示分页
+          pagination: {
+            el: ".swiper-pagination",
+            clickable: true //允许分页点击跳转
+          }
+        },
+        imgBaseUrl: 'https://fuss10.elemecdn.com', //图片域名地址
+      };
+    },
+    computed: {
+      swiper() {
+        return this.$refs.mySwiper.swiper;
+      }
+    },
+    mounted() {
+      // current swiper instance
+      // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
+      console.log("this is current swiper instance object", this.swiper);
+      console.log(this.goodsType)
+      // this.swiper.slideTo(3, 1000, false);
+    }
+  };
 </script>
 
-<style scoped>
+<style scoped >
+  .goodsSwiper .swiper-container{
+    position: relative;
+    width: 100%;
+    padding-bottom: 10px;
+    background: #fff;
+  }
+  .goodsSwiper .swiper-container .swiper-slide{
+    width: 100%;
+
+    color: #000;
+    font-size: 16px;
+    text-align: center;
+    padding-bottom: 10px;
+  }
+  .food-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .food-col {
+    box-sizing: border-box;
+    width: 25%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .food-col img {
+    max-width: 49px;
+    max-height: 49px;
+  }
+  .food-col span{
+    font-size: 12px;
+  }
 
 </style>

@@ -94,3 +94,16 @@ export const msiteAddress = geoHash => request({
 export const signout = () => request({
   url: '/v2/signout'
 });
+
+/**
+ * 获取msite页面食品分类列表
+ */
+
+export const msiteFoodTypes = geoHash => request({
+  url: '/v2/index_entry',
+  params: {
+    geoHash,
+    group_type: '1',
+    'flags[]': 'F'
+  }
+});
