@@ -59,8 +59,8 @@
     mounted() {
       // current swiper instance
       // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
-      console.log("this is current swiper instance object", this.swiper);
-      console.log(this.goodsType)
+      // console.log("this is current swiper instance object", this.swiper);
+      // console.log(this.goodsType)
       // this.swiper.slideTo(3, 1000, false);
     }
   };
@@ -70,7 +70,7 @@
   .goodsSwiper .swiper-container{
     position: relative;
     width: 100%;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     background: #fff;
   }
   .goodsSwiper .swiper-container .swiper-slide{
