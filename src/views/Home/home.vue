@@ -10,7 +10,7 @@
         </navbar>
       </el-header>
       <el-main>
-        <scroll ref="scroll" class="home-nav--content" :probe-type="3">
+        <scroll :pull-upload="true" ref="scroll" class="home-nav--content" :probe-type="3">
           <el-row>
             <el-col :span="24">
               <div class="home-nav--locatedCity">

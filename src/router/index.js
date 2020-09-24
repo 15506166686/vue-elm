@@ -63,7 +63,7 @@ const router = new VueRouter({
       name: 'msite',
       component: Msite,
       meta: {
-        keepAlive: true
+        keepAlive: false
       }
     }
   ]

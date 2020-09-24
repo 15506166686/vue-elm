@@ -36,11 +36,11 @@
     data() {
       return {
         swiperOption: {
-          loop: true,
           autoplay: {
             delay: 3000,
             stopOnLastSlide: false,
-            disableOnInteraction: false
+            disableOnInteraction: false,
+            loop: true
           },
           // 显示分页
           pagination: {

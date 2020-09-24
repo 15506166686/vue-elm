@@ -10,7 +10,7 @@
       </navbar>
     </el-header>
     <el-main>
-      <scroll class="msite-scroll--content" :probeType="3" :pullUpload="true" ref="msiteScroll">
+      <scroll  class="msite-scroll--content" :probeType="3" @pullingUp="loadMoreShop" :pullUpload="true" ref="msiteScroll">
         <msite-swiper :goods-type="goodsType"></msite-swiper>
         <el-row>
           <el-col :span="24" class="msite-icon--mall">
@@ -20,7 +20,7 @@
         </el-row>
         <el-row class="msite-list--shop">
           <el-col>
-            <shop-list :geo-hash="geoHash" @refreshScroll="refreshScroll"></shop-list>
+            <shop-list ref="shopList" :geo-hash="geoHash" @refreshScroll="refreshScroll"></shop-list>
           </el-col>
         </el-row>
       </scroll>
@@ -52,7 +52,8 @@
         msiteTitle: '请选择地址...', // msite页面头部标题
         hasGetData: false, //, 是否已经获取地理位置数据，成功之后再获取商铺列表信息
         goodsType: [], // 导航食品类型
-        isLoading: true
+        isLoading: true,
+        offset: 0, // 商品偏移值
       }
     },
     async created(){
@@ -75,7 +76,6 @@
     },
     mounted(){
       // 获取导航食品类型列表
-
       msiteFoodTypes(this.geoHash).then(data => {
         let tempStack = []
         for (let i = 0; i < data.length; i++ ){
@@ -99,6 +99,19 @@
       // 更新scroll
       refreshScroll(){
         this.$refs.msiteScroll.refresh()
+      },
+      // 加载更多数据
+      async loadMoreShop(){
+        console.log("加载更多shop")
+        // this.offset += 20
+        // console.log('offset: '+ this.offset)
+        await this.$refs.shopList.loadData()
+        this.$refs.msiteScroll.finishPullUp()
+        this.refreshScroll()
+        // setTimeout(() => {
+        //
+        //   this.scroll.refresh()
+        // })
       }
     }
   }

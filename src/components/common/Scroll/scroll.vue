@@ -46,6 +46,7 @@
       this.scroll.on("pullingUp",() => {
         console.log("pullingUp")
         this.$emit("pullingUp")
+
       })
     },
     methods: {

@@ -297,6 +297,7 @@
   .my-list--text {
     flex: 1 1;
     text-indent: 10px;
+    font-size: 0.4rem;
   }
 
   .router-slid-enter-active, .router-slid-leave-active {
