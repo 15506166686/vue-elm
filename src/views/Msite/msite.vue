@@ -149,7 +149,7 @@
     background: #fff;
   }
   .msite-list--shop {
-    margin: 0px;
+    margin: 0px !important;
   }
   .msite-scroll--content {
     height: calc(100vh - 49px);

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import fa from "element-ui/src/locale/lang/fa";
 
 Vue.use(VueRouter)
 
@@ -12,7 +13,7 @@ const UserInfo = () => import('@/views/Profile/Children/userInfo')
 const Search = () => import('@/views/Search/search')
 const Order = () => import('@/views/Order/order')
 const Msite = () => import('@/views/Msite/msite')
-
+const Food = () => import('@/views/Food/food')
 
 const router = new VueRouter({
   mode: 'history',
@@ -62,6 +63,14 @@ const router = new VueRouter({
       path: '/msite',
       name: 'msite',
       component: Msite,
+      meta: {
+        keepAlive: false
+      }
+    },
+    {
+      path: '/food',
+      name: 'food',
+      component: Food,
       meta: {
         keepAlive: false
       }

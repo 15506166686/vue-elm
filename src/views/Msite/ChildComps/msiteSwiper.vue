@@ -3,10 +3,12 @@
     <swiper :options="swiperOption" ref="mySwiper">
       <swiper-slide v-for="(item, index) in goodsType" :key="index">
         <el-row class="food-row">
-          <div class="food-col"  v-for="food in item" :key="food.title">
-            <img :src="imgBaseUrl + food.image_url" alt="">
-            <span>{{food.title}}</span>
-          </div>
+            <div class="food-col"  v-for="food in item" :key="food.title">
+              <router-link :to="{path: '/food', query: {title: food.title}}">
+                <img :src="imgBaseUrl + food.image_url" alt="">
+                <span>{{food.title}}</span>
+              </router-link>
+            </div>
         </el-row>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
@@ -89,6 +91,9 @@
     box-sizing: border-box;
     width: 25%;
     padding: 5px;
+
+  }
+  .food-col a {
     display: flex;
     flex-direction: column;
     align-items: center;
