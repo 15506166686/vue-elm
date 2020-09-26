@@ -6,7 +6,11 @@
       </navbar>
     </el-header>
     <el-main>
-
+      <food-dropdown-menu>
+        <span slot="type-left">分类</span>
+        <span slot="type-center">排序</span>
+        <span slot="type-right">筛选</span>
+      </food-dropdown-menu>
     </el-main>
     <el-footer height="49px"></el-footer>
   </el-container>
@@ -14,9 +18,10 @@
 
 <script>
   import Navbar from "@/components/common/NavBar/navbar";
+  import FoodDropdownMenu from "@/views/Food/ChildComps/foodDropDownMenu";
   export default {
     name: "food",
-    components: {Navbar},
+    components: {FoodDropdownMenu, Navbar},
     data(){
       return {
         headTitle: ''
