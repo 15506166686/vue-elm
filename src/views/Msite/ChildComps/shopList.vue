@@ -1,8 +1,8 @@
 <template>
   <div class="shopList-container">
-    <loading-up class="main-loading" v-show="isLoading"></loading-up>
+
     <el-row class="shop-row--container" v-for="item in shopListArr" :key="item._id">
-      <el-col :span="4" class="shop-info--img">
+      <el-col :span="4" class="shop-info--img" >
         <img :src="imgBaseUrl + item.image_path" alt="shop_img">
       </el-col>
       <el-col :span="20" class="shop-info--details">
@@ -38,19 +38,20 @@
         </div>
       </el-col>
     </el-row>
+
   </div>
 </template>
 
 <script>
   import {mapState} from 'vuex'
-  import LoadingUp from "@/components/content/Loading/loadingForElm";
+
   import {imgBaseUrl} from "@/config/env";
   import {shopList} from "@/network/getData";
   import RatingStar from "@/views/Msite/ChildComps/ratingStar";
 
   export default {
     name: "shopList",
-    components: {RatingStar, LoadingUp},
+    components: {RatingStar},
     data(){
       return {
         offset: 0,
@@ -70,14 +71,13 @@
     },
     methods: {
      async loadData(){
-        this.isLoading = true
-       console.log(this.isLoading)
+       this.$emit("showLoading")
+       // console.log(this.isLoading)
         this.offset += 20
         await shopList(this.latitude, this.longitude, this.offset, this.restaurantCategoryId).then(data => {
           this.shopListArr.push(...data)
         })
-       this.isLoading = false
-
+       this.$emit("closeLoading")
       },
       zhunshi(supports){
         let zhunStatus;
@@ -91,7 +91,11 @@
           zhunStatus = false;
         }
         return zhunStatus
-      }
+      },
+      // showLoading(){
+      //   this.isLoading = true
+      //   console.log(this.isLoading)
+      // }
     },
     updated(){
       this.$emit("refreshScroll")

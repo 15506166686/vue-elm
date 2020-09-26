@@ -1,5 +1,6 @@
 <template>
   <el-container>
+    <loading-up class="main-loading" v-show="isLoading"></loading-up>
     <el-header height="49px">
       <navbar :signinUp="true" :located-city="msiteTitle">
         <div slot="search">
@@ -20,10 +21,11 @@
         </el-row>
         <el-row class="msite-list--shop">
           <el-col>
-            <shop-list ref="shopList" :geo-hash="geoHash" @refreshScroll="refreshScroll"></shop-list>
+            <shop-list @closeLoading="closeLoading" @showLoading="showLoading" ref="shopList" :geo-hash="geoHash" @refreshScroll="refreshScroll"></shop-list>
           </el-col>
         </el-row>
       </scroll>
+
     </el-main>
     <el-footer height="49px">
       <main-foot-nav></main-foot-nav>
@@ -41,11 +43,12 @@
   import scroll from "@/components/common/Scroll/scroll";
   import {mapMutations} from 'vuex'
   import MsiteSwiper from "@/views/Msite/ChildComps/msiteSwiper";
+  import LoadingUp from "@/components/content/Loading/loadingForElm";
   import ShopList from "@/views/Msite/ChildComps/shopList";
 
   export default {
     name: "msite",
-    components: {ShopList, MsiteSwiper, Navbar, MainFootNav, scroll},
+    components: {ShopList, MsiteSwiper, Navbar, MainFootNav, scroll, LoadingUp},
     data(){
       return {
         geoHash: '', // city页面传递过来的地址geohash
@@ -112,6 +115,14 @@
         //
         //   this.scroll.refresh()
         // })
+      },
+      // 显示loading
+      showLoading(){
+        this.isLoading = true
+      },
+      // 关闭loading
+      closeLoading(){
+        this.isLoading = false
       }
     }
   }

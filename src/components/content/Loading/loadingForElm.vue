@@ -47,6 +47,7 @@ export default {
   transform: translate(-50%, -50%);
   width: 50px;
   height: 50px;
+  z-index: 4000;
 }
 .load_img{
   width: 100%;
