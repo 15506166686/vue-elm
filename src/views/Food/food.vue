@@ -6,10 +6,8 @@
       </navbar>
     </el-header>
     <el-main>
-      <food-dropdown-menu>
-        <span slot="type-left">分类</span>
-        <span slot="type-center">排序</span>
-        <span slot="type-right">筛选</span>
+      <food-dropdown-menu :food-types="foodOptions">
+
       </food-dropdown-menu>
     </el-main>
     <el-footer height="49px"></el-footer>
@@ -24,7 +22,18 @@
     components: {FoodDropdownMenu, Navbar},
     data(){
       return {
-        headTitle: ''
+        headTitle: '',
+        foodOptions: [
+          {
+            name: '分类'
+          },
+          {
+            name: '排序'
+          },
+          {
+            name: '筛选'
+          }
+        ]
       }
     },
     props: {
