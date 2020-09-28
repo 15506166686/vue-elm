@@ -8,13 +8,14 @@
         </div>
       </el-col>
     </el-row>
-    <el-row>
-      <transition v-for="(food,index) in foodTypes" :key="food.name" name="showlist">
-        <div v-show="index === nowIndex" class="menu-list--container">
+    <el-row class="food-nav--type">
+      <transition v-show="sortBy" v-for="(food) in foodTypes" :key="food.name" name="showlist">
+        <div v-show="food.name === sortBy" class="menu-list--container">
           <h1>Hello world! {{food.name}}</h1>
         </div>
       </transition>
     </el-row>
+
   </div>
 </template>
 
@@ -33,30 +34,32 @@ export default {
     return {
       nowIndex: -1, // 当前选择
       counter: 0,
-      nowType: ''
+      sortBy: ''
     }
   },
   methods: {
     itemClick(index,type){
-      // if(this.counter === 0){
-      //   this.nowType = type
-      // }
-      // this.counter ++
-      // this.nowIndex = index
-      // this.counter = 0
-      // console.log("0"+type,"1"+this.nowType)
-      // if(index === this.nowIndex && this.counter >= 2 && type === this.nowType) { //主动关闭
-      //   this.counter = 0
-      //   this.nowIndex = -1
-      // }
+
+      if(this.sortBy !== type){
+        this.sortBy = type
+        this.nowIndex = index
+      }else {
+        this.sortBy = ''
+        this.nowIndex = -1
+      }
     }
   }
 }
 </script>
 
 <style scoped>
+  .food-dropdown-menu {
+    position: relative;
+  }
   .dropdown-menu--container {
     padding: 0 8px;
+    z-index: 1000;
+    position: relative;
   }
   .menu-list--item {
     font-size: 0.4rem;
@@ -72,6 +75,7 @@ export default {
   }
   .menu-list--item{
     border-left: 1px solid #e1e1e1;
+
   }
   .menu-list--item:first-child{
     border-left: none;
@@ -85,9 +89,19 @@ export default {
   .arrowRotate {
     transform: rotateZ(180deg);
   }
+  .food-nav--type {
+    width: 100%;
+    position: relative;
+    height: calc(100vh - 49px - 49px - 49px);
+    display: flex;
+    z-index: 0;
+  }
   .menu-list--container {
+    position: absolute;
     padding: 20px;
-    background: red;
+    width: 100%;
+
+    background: rgba(0,0,0,0.2);
   }
   .showlist-enter-active,
   .showlist-leave-active {
@@ -107,4 +121,13 @@ export default {
   /*    transform: rotateZ(180deg);*/
   /*  }*/
   /*}*/
+  .showcover-enter-active,
+  .showcover-leave-active {
+    transition: opacity 0.3s;
+  }
+  .showcover-enter,
+  .showcover-leave-active {
+    opacity: 0;
+  }
+
 </style>

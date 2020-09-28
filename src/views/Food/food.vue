@@ -7,19 +7,20 @@
     </el-header>
     <el-main>
       <food-dropdown-menu :food-types="foodOptions">
-
       </food-dropdown-menu>
     </el-main>
     <el-footer height="49px"></el-footer>
+
   </el-container>
 </template>
 
 <script>
   import Navbar from "@/components/common/NavBar/navbar";
   import FoodDropdownMenu from "@/views/Food/ChildComps/foodDropDownMenu";
+  import Wave from "@/components/common/Wave/wave";
   export default {
     name: "food",
-    components: {FoodDropdownMenu, Navbar},
+    components: {Wave, FoodDropdownMenu, Navbar},
     data(){
       return {
         headTitle: '',
