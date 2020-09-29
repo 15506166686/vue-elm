@@ -20,46 +20,58 @@
 </template>
 
 <script>
-export default {
-  name: "foodDropdownMenu",
-  props: {
-    foodTypes: {
-      type: Array,
-      default(){
-        return []
-      }
-    }
-  },
-  data(){
-    return {
-      nowIndex: -1, // 当前选择
-      counter: 0,
-      sortBy: ''
-    }
-  },
-  methods: {
-    itemClick(index,type){
+  import {mapState} from 'vuex'
 
-      if(this.sortBy !== type){
-        this.sortBy = type
-        this.nowIndex = index
-      }else {
-        this.sortBy = ''
-        this.nowIndex = -1
+  export default {
+    name: "foodDropdownMenu",
+    props: {
+      foodTypes: {
+        type: Array,
+        default(){
+          return []
+        }
+      }
+    },
+    computed: {
+      ...mapState(['latitude','longitude'])
+    },
+    data(){
+      return {
+        nowIndex: -1, // 当前选择
+        counter: 0,
+        sortBy: '',
+        geoHash: "", // city页面传递过来的地址geohash
+      }
+    },
+    methods: {
+      // 切换选项卡
+      itemClick(index,type){
+        if(this.sortBy !== type){
+          this.sortBy = type
+          this.nowIndex = index
+        }else {
+          this.sortBy = ''
+          this.nowIndex = -1
+          this.$emit("recoverTitle")
+        }
       }
     }
   }
-}
 </script>
 
 <style scoped>
   .food-dropdown-menu {
     position: relative;
+
   }
   .dropdown-menu--container {
     padding: 0 8px;
     z-index: 1000;
     position: relative;
+    height: 39px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #e1e1e1;
   }
   .menu-list--item {
     font-size: 0.4rem;
@@ -95,6 +107,7 @@ export default {
     height: calc(100vh - 49px - 49px - 49px);
     display: flex;
     z-index: 0;
+    overflow: hidden;
   }
   .menu-list--container {
     position: absolute;

@@ -4,7 +4,7 @@
       <swiper-slide v-for="(item, index) in goodsType" :key="index">
         <el-row class="food-row">
             <div class="food-col"  v-for="food in item" :key="food.title">
-              <router-link :to="{path: '/food', query: {title: food.title}}">
+              <router-link :to="{path: '/food', query: {title: food.title, geoHash, restaurantCategoryId: getCategoryId(food.link)}}">
                 <img :src="imgBaseUrl + food.image_url" alt="">
                 <span>{{food.title}}</span>
               </router-link>
@@ -31,6 +31,12 @@
         type: Array,
         default(){
           return []
+        }
+      },
+      geoHash: {
+        type: String,
+        default(){
+          return ''
         }
       }
     },
@@ -61,6 +67,15 @@
       slide(){
         console.log('redirect')
         this.swiper.slideTo(2, 1000, false);
+      },
+      // 解码url地址，求去restaurant_category_id值
+      getCategoryId(url){
+        let urlData = decodeURIComponent(url.split('=')[1].replace('&target_name',''));
+        if (/restaurant_category_id/gi.test(urlData)) {
+          return JSON.parse(urlData).restaurant_category_id.id
+        }else{
+          return ''
+        }
       }
     },
     mounted() {
