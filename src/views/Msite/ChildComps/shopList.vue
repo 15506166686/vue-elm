@@ -1,11 +1,14 @@
 <template>
   <div class="shopList-container">
-
-    <el-row class="shop-row--container" v-for="item in shopListArr" :key="item._id">
+    <el-row
+        class="shop-row--container"
+        v-for="item in shopListArr"
+        :key="item._id"
+        @click.native="toShopPath(item.latitude+ ',' + item.longitude, item.id)">
       <el-col :span="4" class="shop-info--img" >
         <img :src="imgBaseUrl + item.image_path" alt="shop_img">
       </el-col>
-      <el-col :span="20" class="shop-info--details">
+      <el-col :span="20" class="shop-info--details" >
         <div class="shop-info--header">
           <h4 :class="item.is_premium? 'premium': ''" class="shop-info--title ellipsis">{{item.name}}</h4>
           <ul class="shop-info--supports">
@@ -38,7 +41,6 @@
         </div>
       </el-col>
     </el-row>
-
   </div>
 </template>
 
@@ -95,7 +97,11 @@
       // showLoading(){
       //   this.isLoading = true
       //   console.log(this.isLoading)
-      // }
+      // },
+      toShopPath(geoHash,id){
+        console.log('a')
+        this.$router.push(`/shop?geohash=${geoHash}&id=${id}`)
+      }
     },
     updated(){
       this.$emit("refreshScroll")

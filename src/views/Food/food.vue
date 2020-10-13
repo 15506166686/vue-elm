@@ -1,14 +1,20 @@
 <template>
   <el-container>
+    <loading-up class="main-loading" v-show="isLoading"></loading-up>
     <el-header height="49px">
       <navbar :go-back="true" :head-title="headTitle"></navbar>
     </el-header>
     <el-main>
       <food-dropdown-menu @changeTitle="foodOptions[0].name = '分类'" @recoverTitle="foodOptions[0].name = headTitle" :food-types="foodOptions"></food-dropdown-menu>
-
+      <el-row class="foodShop-list">
+        <el-col>
+          <scroll class="food-scroll--content" :property="3" :pullUpload="true" ref="foodScroll">
+            <shop-list @closeLoading="closeLoading" :geo-hash="latitude + longitude" v-if="latitude" @refreshScroll="refreshScroll" ></shop-list>
+          </scroll>
+        </el-col>
+      </el-row>
     </el-main>
     <el-footer height="49px"></el-footer>
-
   </el-container>
 </template>
 
@@ -17,10 +23,12 @@
   import FoodDropdownMenu from "@/views/Food/ChildComps/foodDropDownMenu";
   import {mapState, mapMutations} from 'vuex'
   import {msiteAddress, foodCategory, foodDelivery, foodActivity} from "@/network/getData";
-
+  import ShopList from "@/views/Msite/ChildComps/shopList";
+  import scroll from "@/components/common/Scroll/scroll";
+  import loadingUp from "@/components/content/Loading/loadingForElm";
   export default {
     name: "food",
-    components: {FoodDropdownMenu, Navbar},
+    components: {ShopList, FoodDropdownMenu, Navbar, scroll, loadingUp},
     data(){
       return {
         headTitle: '',
@@ -43,7 +51,9 @@
         category: [],
         categoryDetail: [],
         Delivery: '',
-        Activity: []
+        Activity: [],
+        supportIds: [],
+        isLoading: true
       }
     },
     props: {
@@ -91,32 +101,48 @@
         })
         //记录support_ids的状态，默认不选中，点击状态取反，status为true时为选中状态
         this.Activity.forEach((item, index) => {
-          // this.support_ids[index] = { status: false, id: item.id };
+          this.supportIds[index] = { status: false, id: item.id };
         });
       },
+      refreshScroll(){
+        this.$refs.foodScroll.refresh()
+      },
+      closeLoading(){
+        this.isLoading = !this.isLoading
+      }
     }
   }
 </script>
 
 <style scoped>
-.el-header {
-  background-color: #3190e8;
-  color: #fff;
-  text-align: center;
-  font-size: 13px;
-  padding: 0 8px;
-  position: fixed;
-  left: 0;
-  top: 0;
-  right: 0;
-  z-index: 9;
-}
+  .el-header {
+    background-color: #3190e8;
+    color: #fff;
+    text-align: center;
+    font-size: 13px;
+    padding: 0 8px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    z-index: 9;
+  }
 
-.el-main {
-  background-color: #E9EEF3;
-  color: #333;
-  margin-top: 49px;
-  padding: 0px;
-  overflow: hidden;
-}
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    margin-top: 49px;
+    padding: 0px;
+    overflow: hidden;
+  }
+
+  .food-scroll--content {
+    position: relative;
+    height: calc(100vh - 49px);
+    z-index: 0;
+  }
+  .foodShop-list {
+    padding: 0 8px;
+    background: #fff;
+  }
 </style>

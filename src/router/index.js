@@ -14,6 +14,7 @@ const Search = () => import('@/views/Search/search')
 const Order = () => import('@/views/Order/order')
 const Msite = () => import('@/views/Msite/msite')
 const Food = () => import('@/views/Food/food')
+const Shop = () => import('@/views/Shop/shop')
 
 const router = new VueRouter({
   mode: 'history',
@@ -71,6 +72,14 @@ const router = new VueRouter({
       path: '/food',
       name: 'food',
       component: Food,
+      meta: {
+        keepAlive: false
+      }
+    },
+    {
+      path: '/shop',
+      name: 'shop',
+      component: Shop,
       meta: {
         keepAlive: false
       }

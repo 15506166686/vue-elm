@@ -10,7 +10,7 @@
     </el-row>
     <el-row class="food-nav--type">
       <transition v-show="sortBy" v-for="(food) in foodTypes" :key="food.name" name="showlist">
-        <div v-show="food.name === sortBy" class="menu-list--container">
+        <div @blur="closeTypenav" v-show="food.name === sortBy" class="menu-list--container">
           <h1>Hello world! {{food.name}}</h1>
         </div>
       </transition>
@@ -54,6 +54,10 @@
           this.nowIndex = -1
           this.$emit("recoverTitle")
         }
+      },
+      closeTypenav(){
+        this.nowIndex = -1
+        console.log('a')
       }
     }
   }
@@ -72,11 +76,13 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid #e1e1e1;
+    background: #fff;
   }
   .menu-list--item {
     font-size: 0.4rem;
     padding: 5px;
     text-align: center;
+
   }
 
   .menu-list--item {
@@ -104,17 +110,17 @@
   .food-nav--type {
     width: 100%;
     position: relative;
-    height: calc(100vh - 49px - 49px - 49px);
+    /*height: calc(100vh - 49px - 49px - 49px);*/
     display: flex;
-    z-index: 0;
-    overflow: hidden;
+    z-index: 1;
+
+    /*overflow: hidden;*/
   }
   .menu-list--container {
     position: absolute;
     padding: 20px;
     width: 100%;
-
-    background: rgba(0,0,0,0.2);
+    background: #e1e1e1;
   }
   .showlist-enter-active,
   .showlist-leave-active {
