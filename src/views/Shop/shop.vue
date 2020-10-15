@@ -1,7 +1,12 @@
 <template>
-  <div class="shop-container">
+  <el-container>
+    <el-header>
+      <h1>标题</h1>
+    </el-header>
+    <el-main>
 
-  </div>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
